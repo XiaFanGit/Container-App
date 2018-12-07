@@ -4,7 +4,7 @@ RUN mkdir /opt
 
 WORKDIR /opt
 
-ENV luna_version 1.4.0
+ENV luna_version 1.4.4
 
 RUN apk add --no-cache wget nginx \
     && cd /opt \
