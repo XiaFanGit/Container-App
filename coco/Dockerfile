@@ -19,3 +19,4 @@ RUN apk del gcc g++ make automake
 
 EXPOSE 2222 5000
 
+CMD source /opt/py3/bin/activate && cd /opt/coco && python ./run_server.py
