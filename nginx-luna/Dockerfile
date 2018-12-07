@@ -44,7 +44,7 @@ RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases
         "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
 
-ENV luna_version 1.4.4
+ENV luna_version v1.4.4
 
 RUN apk add --no-cache wget nginx \
     && cd /opt \
