@@ -9,8 +9,11 @@ RUN cd /opt \
 
 RUN apk del gcc g++ make automake
 
+COPY entrypoint.sh /
+RUN chmod +x /entrypoint.sh
+
 VOLUME /opt/jumpserver/data
 
 EXPOSE 8080
 
-CMD source /opt/py3/bin/activate && cd /opt/jumpserver/utils && sh make_migrations.sh && cd .. && python run_server.py
+ENTRYPOINT ["/entrypoint.sh"]
