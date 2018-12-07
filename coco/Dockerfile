@@ -4,7 +4,7 @@ ENV coco_version=1.4.4
  
 COPY run.sh /usr/local/bin/run.sh
 
-RUN apk add --no-cache libffi-dev sshpass krb5-dev
+RUN apk add --no-cache gcc g++ make automake libffi-dev sshpass krb5-dev
 
 RUN wget https://github.com/jumpserver/coco/archive/${coco_version}.tar.gz -O /opt/coco.tar.gz \
     && cd /opt \
@@ -16,6 +16,8 @@ RUN wget https://github.com/jumpserver/coco/archive/${coco_version}.tar.gz -O /o
     && wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.2.1/dumb-init_1.2.1_amd64 \
     && chmod a+x /usr/local/bin/dumb-init \
     && chmod a+x /usr/local/bin/run.sh
+
+RUN apk del gcc g++ make automake
 
 EXPOSE 2222 5000
 
