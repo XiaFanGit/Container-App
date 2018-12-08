@@ -10,9 +10,8 @@ RUN wget https://github.com/jumpserver/coco/archive/${coco_version}.tar.gz -O /o
     && ln -sv coco-${coco_version} coco \
     && rm -rf /opt/coco.tar.gz \
     && source /opt/py3/bin/activate \ 
-    && pip install -r /opt/coco/requirements/requirements.txt
-
-RUN apk del gcc g++ make automake
+    && pip install -r /opt/coco/requirements/requirements.txt \
+    && apk del gcc g++ make automake
 
 EXPOSE 2222 5000
 
