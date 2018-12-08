@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
-sentinel=/opt/jumpserver/data/inited
-
 source /opt/py3/bin/activate
+
+sentinel=/opt/jumpserver/data/inited
 
 if [ -f ${sentinel} ];then
         echo "Database have been inited"
