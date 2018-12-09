@@ -9,6 +9,7 @@ RUN cd /opt \
     && apk del gcc g++ make automake
 
 COPY entrypoint.sh /
+COPY config.py /opt/jumpserver/config.py
 
 RUN chmod +x /entrypoint.sh
 
