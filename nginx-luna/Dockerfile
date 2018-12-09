@@ -1,5 +1,9 @@
 FROM daocloud.io/subaru/alpine:based
 
+RUN mkdir /opt
+
+WORKDIR /opt
+
 ENV luna_version v1.4.4
 
 RUN apk add --no-cache wget nginx \
