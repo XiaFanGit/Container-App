@@ -5,6 +5,10 @@ set -e
 cd /etc/wireguard
 
 function CreatWg0() {
+
+sed -i -e "s@^ipv4-network =.*@ipv4-network = ${VPN_NETWORK}@" \
+	-e "s@^default-domain =.*@default-domain = ${VPN_DOMAIN}@" \
+	-e "s@^ipv4-netmask =.*@ipv4-netmask = ${VPN_NETMASK}@" $CONFIG_FILE
     cat > /etc/wireguard/wg0.conf' <<_EOF
     [Interface]
     Address = $interface_addr/24
