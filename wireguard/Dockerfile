@@ -7,16 +7,16 @@ ENV INTERFACE_ADDR=10.20.100.1/24
 ENV WIREGUARD_VERSION 0.0.20181119
 
 RUN set -x \
-	&& apk add --no-cache --virtual .build-deps \
-		git \
-	&& git clone --depth 1 --branch "${WIREGUARD_VERSION}" https://git.zx2c4.com/WireGuard.git /wireguard \
-	&& ( \
-		cd /wireguard/src \
-		&& make tools \
-		&& make -C tools install \
-		&& make -C tools clean \
+    && apk add --no-cache --virtual .build-deps \
+    git \
+    && git clone --depth 1 --branch "${WIREGUARD_VERSION}" https://git.zx2c4.com/WireGuard.git /wireguard \
+    && ( \
+        cd /wireguard/src \
+        && make tools \
+        && make -C tools install \
+        && make -C tools clean \
 	) \
-	&& apk del .build-deps
+    && apk del .build-deps
 
 COPY entrypoint.sh /entrypoint.sh
 COPY add_client /add_client
