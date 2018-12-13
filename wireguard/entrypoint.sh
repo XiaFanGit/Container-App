@@ -11,15 +11,38 @@ if ! compgen -G "/etc/wireguard/*.conf" > /dev/null; then
     wg genkey | tee server_private_key | wg pubkey > server_public_key
     # Setup Configuration wg0.conf
     server_pvtkey=$(cat /etc/wireguard/server_private_key)
-    sed -e "s-SERVER_PVTKEY-${server_pvtkey}-g" /wg0.conf.tpl > /etc/wireguard/wg0.conf
-    sed -e "s-INTERFACE_ADDR-${interface_address}-g" /etc/wireguard/wg0.conf > /etc/wireguard/wg0.conf
+    
+    cat > /etc/wireguard/wg0.conf' <<_EOF
+    [Interface]
+    Address = $interface_addr/24
+    SaveConfig = true
+    PrivateKey = $server_pvtkey
+    DNS = 8.8.8.8, 119.29.29.29
+
+    [Peer]
+    PublicKey = $server_pubkey
+    Endpoint = demo.wireguard.com:$server_port
+    AllowedIPs = 0.0.0.0/0
+    _EOF
+    
     chown -v root:root /etc/wireguard/wg0.conf
     chmod -v 600 /etc/wireguard/wg0.conf
 fi
 
 
 
+cat > /etc/wireguard/wg0.conf' <<_EOF
+[Interface]
+Address = $interface_addr/24
+SaveConfig = true
+PrivateKey = $server_pvtkey
+DNS = 8.8.8.8, 119.29.29.29
 
+[Peer]
+PublicKey = $server_pubkey
+Endpoint = demo.wireguard.com:$server_port
+AllowedIPs = 0.0.0.0/0
+_EOF
 
 
 # Install Wireguard. This has to be done dynamically since the kernel
