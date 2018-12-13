@@ -1,5 +1,4 @@
 #!/bin/sh
-
 set -e
 
 (
@@ -12,4 +11,7 @@ echo "Cleaning up..."
 make clean
 )
 
+echo "Successfully built and installed the wireguard kernel module!"
+
+# shellcheck disable=SC2068
 exec $@
