@@ -10,13 +10,14 @@ if ! compgen -G "/etc/wireguard/*.conf" > /dev/null; then
     umask 077
     wg genkey | tee server_private_key | wg pubkey > server_public_key
     # Setup Configuration wg0.conf
+    server_pvtkey=$(cat /etc/wireguard/server_private_key)
     sed -e "s-SERVER_PVTKEY-${server_pvtkey}-g" /wg0.conf.tpl > /etc/wireguard/wg0.conf
     sed -e "s-INTERFACE_ADDR-${interface_address}-g" /etc/wireguard/wg0.conf > /etc/wireguard/wg0.conf
     chown -v root:root /etc/wireguard/wg0.conf
     chmod -v 600 /etc/wireguard/wg0.conf
 fi
 
-server_pvtkey=$(cat server_private_key)
+
 
 
 
