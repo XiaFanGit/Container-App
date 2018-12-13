@@ -17,7 +17,7 @@ if ! compgen -G "/etc/wireguard/*.conf" > /dev/null; then
     wg genkey | tee server_private_key | wg pubkey > server_public_key
     # Setup Configuration wg0.conf
     server_pvtkey=$(cat /etc/wireguard/server_private_key)
-    
+    CreatWg0
     chown -v root:root /etc/wireguard/wg0.conf
     chmod -v 600 /etc/wireguard/wg0.conf
 fi
