@@ -4,14 +4,7 @@ set -e
 
 cd /etc/wireguard
 
-if ! compgen -G "/etc/wireguard/*.conf" > /dev/null; then
-    echo "no config file at /etc/wireguard/*.conf – creating demo config"
-    # Generate Server Private Keys
-    umask 077
-    wg genkey | tee server_private_key | wg pubkey > server_public_key
-    # Setup Configuration wg0.conf
-    server_pvtkey=$(cat /etc/wireguard/server_private_key)
-    
+function CreatWg0() {
     cat > /etc/wireguard/wg0.conf' <<_EOF
     [Interface]
     Address = $interface_addr/24
@@ -20,10 +13,19 @@ if ! compgen -G "/etc/wireguard/*.conf" > /dev/null; then
     DNS = 8.8.8.8, 119.29.29.29
 
     [Peer]
-    PublicKey = $server_pubkey
+    PublicKey = $client_pubkey
     Endpoint = demo.wireguard.com:$server_port
     AllowedIPs = 0.0.0.0/0
     _EOF
+}
+
+if ! compgen -G "/etc/wireguard/*.conf" > /dev/null; then
+    echo "no config file at /etc/wireguard/*.conf – creating demo config"
+    # Generate Server Private Keys
+    umask 077
+    wg genkey | tee server_private_key | wg pubkey > server_public_key
+    # Setup Configuration wg0.conf
+    server_pvtkey=$(cat /etc/wireguard/server_private_key)
     
     chown -v root:root /etc/wireguard/wg0.conf
     chmod -v 600 /etc/wireguard/wg0.conf
@@ -58,3 +60,12 @@ trap finish SIGTERM SIGINT SIGQUIT
 
 sleep infinity &
 wait $!
+
+
+# check if Wireguard is running
+if [[ $(wg) ]]
+then
+    syslogd -n      # keep container alive
+else
+    echo "stopped"  # else exit container
+fi
