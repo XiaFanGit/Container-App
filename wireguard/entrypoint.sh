@@ -4,17 +4,16 @@ set -e
 
 cd /etc/wireguard
 
-# Generate Server Private Keys
-
 if ! compgen -G "/etc/wireguard/*.conf" > /dev/null; then
     echo "no config file at /etc/wireguard/*.conf – creating demo config"
+    # Generate Server Private Keys
     umask 077
     wg genkey | tee server_private_key | wg pubkey > server_public_key
-    awk '/PrivateKey/ { print; print "ListenPort = 38945"; next }1' demo.conf > wg0.conf
-    sed -i "s/0\.0\.0\.0\/0/192.168.4.1\/24/g" wg0.conf
+    # Setup Configuration wg0.conf
+    sed -e "s-SERVER_PVTKEY-${server_pvtkey}-g" /wg0.conf.tpl > /etc/wireguard/wg0.conf
+    chown -v root:root /etc/wireguard/wg0.conf
+    chmod -v 600 /etc/wireguard/wg0.conf
 fi
-
-
 
 server_pvtkey=$(cat server_private_key)
 $interface_address
