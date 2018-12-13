@@ -12,7 +12,7 @@ function CreatWg0() {
 # Check Config
 if ! compgen -G "/etc/wireguard/*.conf" > /dev/null; then
     echo "no config file at /etc/wireguard/*.conf – creating demo config"
-	cp /wg0.conf.tpl /etc/wireguard/wg0.conf
+    cp /wg0.conf.tpl /etc/wireguard/wg0.conf
     # Generate Server Private Keys
     umask 077
     wg genkey | tee server_private_key | wg pubkey > server_public_key
