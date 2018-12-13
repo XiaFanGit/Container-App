@@ -5,4 +5,5 @@ RUN	apk add --no-cache \
 	ca-certificates \
 	elfutils-libelf \
 	libelf-dev \
-	libmnl-dev
+	libmnl-dev \
+	bash
