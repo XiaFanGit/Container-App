@@ -25,11 +25,11 @@ chown -v root:root /etc/wireguard/wg0.conf
 chmod -v 600 /etc/wireguard/wg0.conf
 
 # Configure my network, I think.. I just copied those..
-iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-iptables -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
-iptables -A INPUT -p udp -m udp --dport 51820 -m conntrack --ctstate NEW -j ACCEPT
-iptables -A FORWARD -i wg0 -o wg0 -m conntrack --ctstate NEW -j ACCEPT
-iptables -t nat -A POSTROUTING -s ${INTERFACE_ADDR}/24 -o eth0 -j MASQUERADE
+#iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+#iptables -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+#iptables -A INPUT -p udp -m udp --dport 51820 -m conntrack --ctstate NEW -j ACCEPT
+#iptables -A FORWARD -i wg0 -o wg0 -m conntrack --ctstate NEW -j ACCEPT
+#iptables -t nat -A POSTROUTING -s ${INTERFACE_ADDR}/24 -o eth0 -j MASQUERADE
 
 # Start the Insterface
 wg-quick up wg0
