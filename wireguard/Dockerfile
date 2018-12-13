@@ -1,7 +1,8 @@
-FROM alpine:edge
+FROM daocloud.io/subaru/alpine:based
 
-# ARG WG_VER
-
-RUN echo "ipv6" >> /etc/modules
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-RUN apk --no-cache add wireguard-tools bash iptables
+RUN apk add --no-cache \
+	  build-base \
+	  ca-certificates \
+	  elfutils-libelf \
+	  libelf-dev \
+	  libmnl-dev
