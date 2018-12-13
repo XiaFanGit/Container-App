@@ -6,4 +6,4 @@ RUN chmod +x /entrypoint.sh
 
 VOLUME ["/etc/wireguard"]
 
-ENTRYPOINT ["/usr/bin/wg"]
+ENTRYPOINT ["/entrypoint.sh"]
