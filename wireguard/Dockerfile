@@ -1,23 +1,31 @@
-FROM debian:latest
+FROM daocloud.io/subaru/wireguard:based
 
-# Copy-Pasta from https://www.wireguard.com/install/
-RUN echo "deb http://deb.debian.org/debian/ unstable main" > /etc/apt/sources.list.d/unstable-wireguard.list
-RUN printf 'Package: *\nPin: release a=unstable\nPin-Priority: 150\n' > /etc/apt/preferences.d/limit-unstable
-RUN apt update
-RUN apt-get install -y wireguard-dkms wireguard-tools
+ENV INTERFACE_ADDR=10.20.100.1/24
 
-#FROM daocloud.io/subaru/wireguard:based
+# Thanks for jessfraz's work:
+# https://github.com/jessfraz/dockerfiles/blob/master/wireguard/install/Dockerfile
+ENV WIREGUARD_VERSION 0.0.20181119
 
-#ENV INTERFACE_ADDR=10.20.100.1/24
+RUN set -x \
+	&& apk add --no-cache --virtual .build-deps \
+		git \
+	&& git clone --depth 1 --branch "${WIREGUARD_VERSION}" https://git.zx2c4.com/WireGuard.git /wireguard \
+	&& ( \
+		cd /wireguard/src \
+		&& make tools \
+		&& make -C tools install \
+		&& make -C tools clean \
+	) \
+	&& apk del .build-deps
 
-#COPY entrypoint.sh /entrypoint.sh
-#COPY add_client /add_client
-#COPY wg0.conf.tpl /wg0.conf.tpl
+COPY entrypoint.sh /entrypoint.sh
+COPY add_client /add_client
+COPY wg0.conf.tpl /wg0.conf.tpl
 
-#RUN chmod +x /entrypoint.sh \
-#    && chmod +x /add_client \
-#    && apk add --no-cache linux-headers
+RUN chmod +x /entrypoint.sh \
+    && chmod +x /add_client \
+    && apk add --no-cache linux-headers
 
-#VOLUME ["/etc/wireguard"]
+VOLUME ["/etc/wireguard"]
 
-#ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
