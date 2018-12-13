@@ -4,6 +4,6 @@ FROM alpine:edge
 
 RUN echo "ipv6" >> /etc/modules
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
-RUN apk add -U wireguard-tools
+RUN apk --no-cache add wireguard-tools bash iptables
 
-CMD ["sh"]
+ENTRYPOINT ["/usr/bin/wg"]
