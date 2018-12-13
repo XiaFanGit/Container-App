@@ -13,6 +13,7 @@ then
 fi
 
 client=$1
+client_ip=$2
 if [ -e /wg/clients/${client} ]
 then
   echo "Client ${client} already exists"
@@ -31,8 +32,7 @@ client_pubkey=$(cat /wg/clients/${client}_public_key)
 server_pubkey=$(cat /wg/server_public_key)
 server_ip=$(curl -s icanhazip.com)
 
-
-wg set wg0  peer ${client_pubkey} allowed-ips 10.200.200.${client_ip}
+wg set wg0  peer ${client_pubkey} allowed-ips ${client_ip}
 
 echo "Client added successfully, using the following client configuration file to connect to the server:"
 echo "#######################################################"
