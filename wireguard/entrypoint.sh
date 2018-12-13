@@ -29,22 +29,6 @@ if ! compgen -G "/etc/wireguard/*.conf" > /dev/null; then
     chmod -v 600 /etc/wireguard/wg0.conf
 fi
 
-
-
-cat > /etc/wireguard/wg0.conf' <<_EOF
-[Interface]
-Address = $interface_addr/24
-SaveConfig = true
-PrivateKey = $server_pvtkey
-DNS = 8.8.8.8, 119.29.29.29
-
-[Peer]
-PublicKey = $server_pubkey
-Endpoint = demo.wireguard.com:$server_port
-AllowedIPs = 0.0.0.0/0
-_EOF
-
-
 # Install Wireguard. This has to be done dynamically since the kernel
 # module depends on the host kernel version.
 apt update
