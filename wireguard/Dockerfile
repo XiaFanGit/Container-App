@@ -23,8 +23,7 @@ COPY add_client /add_client
 COPY wg0.conf.tpl /wg0.conf.tpl
 
 RUN chmod +x /entrypoint.sh \
-    && chmod +x /add_client \
-    && apk add --no-cache linux-headers
+    && chmod +x /add_client
 
 VOLUME ["/etc/wireguard"]
 
