@@ -6,7 +6,10 @@ RUN apk add --no-cache \
 	ca-certificates \
 	elfutils-libelf \
 	libelf-dev \
-	libmnl-dev
+	libmnl-dev \
+	cmake \
+	make \
+	gcc
 
 # https://git.zx2c4.com/WireGuard/refs/
 ENV WIREGUARD_VERSION 0.0.20181119
