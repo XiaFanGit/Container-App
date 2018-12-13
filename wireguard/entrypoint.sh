@@ -5,22 +5,9 @@ set -e
 cd /etc/wireguard
 
 function CreatWg0() {
-
-sed -i -e "s@^ipv4-network =.*@ipv4-network = ${VPN_NETWORK}@" \
-	-e "s@^default-domain =.*@default-domain = ${VPN_DOMAIN}@" \
-	-e "s@^ipv4-netmask =.*@ipv4-netmask = ${VPN_NETMASK}@" $CONFIG_FILE
-    cat > /etc/wireguard/wg0.conf' <<_EOF
-    [Interface]
-    Address = $interface_addr/24
-    SaveConfig = true
-    PrivateKey = $server_pvtkey
-    DNS = 8.8.8.8, 119.29.29.29
-
-    [Peer]
-    PublicKey = $client_pubkey
-    Endpoint = demo.wireguard.com:$server_port
-    AllowedIPs = 0.0.0.0/0
-    _EOF
+	cp /wg0.conf.tpl /etc/wireguard/wg0.conf
+	sed -i "s/SERVER_PVTKEY/${server_pvtkey}/g" /etc/wireguard/wg0.conf
+	sed -i "s/INTERFACE_ADDR/${interface_addr}/g" /etc/wireguard/wg0.conf
 }
 
 if ! compgen -G "/etc/wireguard/*.conf" > /dev/null; then
@@ -64,6 +51,19 @@ trap finish SIGTERM SIGINT SIGQUIT
 
 sleep infinity &
 wait $!
+
+# Configure my network, I think.. I just copied those..
+
+iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+iptables -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+
+iptables -A INPUT -p udp -m udp --dport 51820 -m conntrack --ctstate NEW -j ACCEPT
+iptables -A FORWARD -i wg0 -o wg0 -m conntrack --ctstate NEW -j ACCEPT
+
+iptables -t nat -A POSTROUTING -s 10.200.200.0/24 -o eth0 -j MASQUERADE
+
+# start the insterface
+wg-quick up wg0
 
 
 # check if Wireguard is running
