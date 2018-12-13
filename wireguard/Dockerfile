@@ -1,15 +1,29 @@
-FROM jess/wireguard
+FROM alpine:latest
+LABEL maintainer "Jessie Frazelle <jess@linux.com>"
 
-ENV INTERFACE_ADDR=10.20.100.1/24
+RUN apk add --no-cache \
+	build-base \
+	ca-certificates \
+	elfutils-libelf \
+	libelf-dev \
+	libmnl-dev
 
-COPY entrypoint.sh /entrypoint.sh
-COPY add_client /add_client
-COPY wg0.conf.tpl /wg0.conf.tpl
+# https://git.zx2c4.com/WireGuard/refs/
+ENV WIREGUARD_VERSION 0.0.20181119
 
-RUN chmod +x /entrypoint.sh \
-    && chmod +x /add_client
+RUN set -x \
+	&& apk add --no-cache --virtual .build-deps \
+		git \
+	&& git clone --depth 1 --branch "${WIREGUARD_VERSION}" https://git.zx2c4.com/WireGuard.git /wireguard \
+	&& ( \
+		cd /wireguard/src \
+		&& make tools \
+		&& make -C tools install \
+		&& make -C tools clean \
+	) \
+	&& apk del .build-deps
 
-VOLUME ["/etc/wireguard"]
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 CMD [ "wg", "--help" ]
