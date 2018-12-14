@@ -2,6 +2,8 @@ FROM daocloud.io/subaru/wireguard:based
 
 COPY run.sh /run.sh
 
+RUN chmod +x /run.sh
+
 ENV PRIVKEY=
 ENV PEERKEY=
 ENV LPORT=12345
