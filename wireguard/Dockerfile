@@ -1,14 +1,8 @@
 FROM daocloud.io/subaru/wireguard:based
 
-COPY run.sh /run.sh
+COPY entrypoint.sh /entrypoint.sh
+COPY wg0.conf.tpl /wg0.conf.tpl
 
-RUN chmod +x /run.sh
-
-ENV PRIVKEY=
-ENV PEERKEY=
-ENV LPORT=12345
-ENV OWNIP=192.168.0.1
-ENV BLOCKSIZE=16
-ENV PEERADDR=
+RUN chmod +x /entrypoint.sh
 
 CMD /run.sh
