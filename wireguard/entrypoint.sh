@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -ex
 
 cd /etc/wireguard
 
@@ -20,6 +20,7 @@ if ! compgen -G "/etc/wireguard/*.conf" > /dev/null; then
     # Setup Configuration wg0.conf
     SERVER_PYTKEY=$(cat /etc/wireguard/server_private_key)
     CreatWg0
+    cat /etc/wireguard/wg0.conf
 fi
 
 chown -v root:root /etc/wireguard/wg0.conf
