@@ -5,8 +5,8 @@ set -ex
 cd /etc/wireguard
 
 function CreatWg0() {
-	sed -i "s/SERVER_PVTKEY/${SERVER_PYTKEY}/g" /etc/wireguard/wg0.conf
-	sed -i "s/INTERFACE_ADDR/${INTERFACE_ADDR}/g" /etc/wireguard/wg0.conf
+	sed -i "s-SERVER_PVTKEY-${SERVER_PYTKEY}-g" /etc/wireguard/wg0.conf
+	sed -i "s-INTERFACE_ADDR-${INTERFACE_ADDR}-g" /etc/wireguard/wg0.conf
 }
 
 # Check Config
