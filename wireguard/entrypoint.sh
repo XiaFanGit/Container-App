@@ -34,7 +34,11 @@ chmod -v 600 /etc/wireguard/wg0.conf
 #iptables -t nat -A POSTROUTING -s ${INTERFACE_ADDR}/24 -o eth0 -j MASQUERADE
 
 # Start the Insterface
-wg-quick up wg0
+#wg-quick up wg0
+ip link add dev wg0 type wireguard
+ip addr add dev wg0 ${INTERFACE_ADDR}/24
+wg set wg0 private-key /etc/wireguard/server_private_key listen-port 12345
+ip link set up wg0
 
 # Check if Wireguard is Running
 if [[ $(wg) ]]
