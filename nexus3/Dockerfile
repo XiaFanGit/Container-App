@@ -1,7 +1,7 @@
 FROM       openjdk:8-jre-alpine
 MAINTAINER Subaru.Xia
 
-ENV NEXUS_VERSION 3.1.0-04
+ENV NEXUS_VERSION 3.14.0-04
 
 ENV SONATYPE_DIR /opt/sonatype
 ENV NEXUS_HOME ${SONATYPE_DIR}/nexus
@@ -12,7 +12,7 @@ ENV SONATYPE_WORK ${SONATYPE_DIR}/sonatype-work
 # install nexus
 RUN apk update && apk add openssl && rm -fr /var/cache/apk/*
 RUN mkdir -p /opt/sonatype/ \
-  && wget https://subaru.pek3a.qingstor.com/Devops/nexus-${NEXUS_VERSION}-unix.tar.gz -O - \
+  && wget https://download.sonatype.com/nexus/3/nexus-${NEXUS_VERSION}-unix.tar.gz -O - \
   | tar zx -C "${SONATYPE_DIR}" && rm -fr ${SONATYPE_WORK} \
   && mv "${SONATYPE_DIR}/nexus-${NEXUS_VERSION}" "${NEXUS_HOME}"
 
