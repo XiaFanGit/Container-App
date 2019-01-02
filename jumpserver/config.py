@@ -33,7 +33,7 @@ class Config:
 
     # SECURITY WARNING: keep the bootstrap token used in production secret!
     # 预共享Token coco和guacamole用来注册服务账号，不在使用原来的注册接受机制
-    BOOTSTRAP_TOKEN = 'PleaseChangeMe'
+    BOOTSTRAP_TOKEN = os.environ.get("BOOTSTRAP_TOKEN")
 
     # Development env open this, when error occur display the full process track, Production disable it
     # DEBUG 模式 开启DEBUG后遇到错误时可以看到更多日志
@@ -61,11 +61,11 @@ class Config:
     # MySQL or postgres setting like:
     # 使用Mysql作为数据库
     DB_ENGINE = 'mysql'
-    DB_HOST = '127.0.0.1'
+    DB_HOST = os.environ.get("DB_HOST")
     DB_PORT = 3306
-    DB_USER = 'jumpserver'
-    DB_PASSWORD = ''
-    DB_NAME = 'jumpserver'
+    DB_USER = os.environ.get("DB_USER")
+    DB_PASSWORD = os.environ.get("DB_PASSWORD")
+    DB_NAME = os.environ.get("DB_NAME")
 
     # When Django start it will bind this host and port
     # ./manage.py runserver 127.0.0.1:8080
@@ -75,7 +75,7 @@ class Config:
 
     # Use Redis as broker for celery and web socket
     # Redis配置
-    REDIS_HOST = '127.0.0.1'
+    REDIS_HOST = os.environ.get("REDIS_HOST")
     REDIS_PORT = 6379
     # REDIS_PASSWORD = ''
     # REDIS_DB_CELERY = 3
