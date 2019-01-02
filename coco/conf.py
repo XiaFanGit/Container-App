@@ -12,10 +12,10 @@ class Config:
     Coco config file, coco also load config from server update setting below
     """
     # 项目名称, 会用来向Jumpserver注册, 识别而已, 不能重复
-    # NAME = "localhost"
+    NAME = os.environ.get("NAME") or "localhost"
 
     # Jumpserver项目的url, api请求注册会使用
-    CORE_HOST = os.environ.get("CORE_HOST") or 'http://127.0.0.1:8080'
+    CORE_HOST = os.environ.get("CORE_HOST")
 
     # Bootstrap Token, 预共享秘钥, 用来注册coco使用的service account和terminal
     # 请和jumpserver 配置文件中保持一致，注册完成后可以删除
