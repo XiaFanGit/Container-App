@@ -1,6 +1,6 @@
 FROM daocloud.io/subaru/pvenv
 
-ENV coco_version=1.4.4
+ENV coco_version=1.4.6
  
 RUN apk add --no-cache gcc g++ make automake linux-headers sshpass libffi-dev krb5-dev libressl-dev
 
