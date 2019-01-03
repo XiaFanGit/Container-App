@@ -18,7 +18,7 @@ RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates && \
                        "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
                        "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" && \
         
-    #/usr/glibc-compat/bin/localedef -i en_US -f UTF-8 en_US.UTF-8 \
+    /usr/glibc-compat/bin/localedef -i en_US -f UTF-8 en_US.UTF-8 &&\
     
     apk del .build-dependencies && \
     apk del glibc-i18n && \
