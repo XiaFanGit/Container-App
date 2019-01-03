@@ -4,7 +4,7 @@ ENV LANG="en_US.UTF-8" \
     LANGUAGE="en_US:en" \
     LC_ALL="en_US.UTF-8" \
     BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" \
-    VERSION="2.28-r0" \
+    VERSION="2.28-r0"
     
 RUN ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-$VERSION.apk" \
     ALPINE_GLIBC_BIN_PACKAGE_FILENAME="glibc-bin-$VERSION.apk" \
