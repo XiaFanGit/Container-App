@@ -18,7 +18,7 @@ RUN wget "$BASE_URL/$VERSION/$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" && \
          
     apk add --no-cache "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" && \
                        "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" && \
-                       "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
+                       "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" \
         
     #/usr/glibc-compat/bin/localedef -i en_US -f UTF-8 en_US.UTF-8 \
     
