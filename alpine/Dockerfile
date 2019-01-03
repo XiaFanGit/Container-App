@@ -8,7 +8,7 @@ ENV LANG="en_US.UTF-8" \
     
 ENV ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-$VERSION.apk" \
     ALPINE_GLIBC_BIN_PACKAGE_FILENAME="glibc-bin-$VERSION.apk" \
-    ALPINE_GLIBC_I18N_PACKAGE_FILENAME="glibc-i18n-$VERSION.apk" \
+    ALPINE_GLIBC_I18N_PACKAGE_FILENAME="glibc-i18n-$VERSION.apk"
 
 RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates && \
     wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
