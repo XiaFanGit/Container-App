@@ -6,13 +6,13 @@ ENV LANG="en_US.UTF-8" \
     BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" \
     VERSION="2.28-r0"
     
-RUN ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-$VERSION.apk" \
+ENV ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-$VERSION.apk" \
     ALPINE_GLIBC_BIN_PACKAGE_FILENAME="glibc-bin-$VERSION.apk" \
     ALPINE_GLIBC_I18N_PACKAGE_FILENAME="glibc-i18n-$VERSION.apk" \
-    apk add --no-cache --virtual=.build-dependencies wget ca-certificates && \
+
+RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates && \
     wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
-    
-RUN wget "$BASE_URL/$VERSION/$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" && \
+    wget "$BASE_URL/$VERSION/$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" && \
          "$BASE_URL/$VERSION/$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" && \
          "$BASE_URL/$VERSION/$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" \
          
