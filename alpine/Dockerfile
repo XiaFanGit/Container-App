@@ -23,7 +23,7 @@ RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates && \
     apk del .build-dependencies && \
     apk del glibc-i18n && \
     rm "/etc/apk/keys/sgerrand.rsa.pub" && \
-    #rm "/root/.wget-hsts" \
+    rm "/root/.wget-hsts" &&\
     rm  "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
