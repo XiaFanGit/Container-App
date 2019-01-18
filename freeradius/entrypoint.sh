@@ -35,4 +35,4 @@ sed -i "s/aaaaaaaaaa/${PASSWORD}/g" /etc/raddb/mods-available/ldap
 ln -s /etc/raddb/mods-available/ldap /etc/raddb/mods-enabled/
 ln -s /etc/raddb/sites-available/ldap /etc/raddb/sites-enabled/
 
-exec nohup radiusd -xxf >/dev/null 2>%1 &
+radiusd -xxf
