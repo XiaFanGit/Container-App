@@ -35,4 +35,8 @@ sed -i "s/xxxxxxxxxx/${PASSWD}/g" /etc/raddb/mods-available/ldap
 sed -i "s/389/${PORT}/g" /etc/raddb/mods-available/ldap
 sed -i "s/dc=motofans,dc=club/${BASE_DN}/g" /etc/raddb/mods-available/ldap
 
+# Enable Config
+ln -s /etc/raddb/mods-available/ldap /etc/raddb/mods-enabled/
+ln -s /etc/raddb/sites-available/ldap /etc/raddb/sites-enabled/
+
 radiusd -xxf

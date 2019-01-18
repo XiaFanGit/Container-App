@@ -7,8 +7,7 @@ ENV LDAP_SERVER = motofans.club \
     BASE_DN = dc=motofans,dc=club
 
 RUN apk add --no-cache freeradius freeradius-ldap \
-    chgrp radius  /usr/sbin/radiusd && chmod g+rwx /usr/sbin/radiusd && \
-    rm /etc/raddb/mods-available/ldap
+    chgrp radius  /usr/sbin/radiusd && chmod g+rwx /usr/sbin/radiusd 
 
 COPY mod.conf /etc/raddb/mods-available/ldap
 
