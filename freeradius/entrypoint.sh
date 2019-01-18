@@ -29,7 +29,7 @@ server site_ldap {
 _EOF_
 
 # Change LDAP Config
-sed -i "s/aaaaaaaaaa/${PASSWD}/g" /etc/raddb/mods-available/ldap
+sed -i "s/aaaaaaaaaa/${PASSWORD}/g" /etc/raddb/mods-available/ldap
 
 # Enable Config
 ln -s /etc/raddb/mods-available/ldap /etc/raddb/mods-enabled/
