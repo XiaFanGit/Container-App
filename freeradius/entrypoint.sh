@@ -39,4 +39,4 @@ sed -i "s/dc=motofans,dc=club/${BASE_DN}/g" /etc/raddb/mods-available/ldap
 ln -s /etc/raddb/mods-available/ldap /etc/raddb/mods-enabled/
 ln -s /etc/raddb/sites-available/ldap /etc/raddb/sites-enabled/
 
-radiusd -xxf
+exec nohup radiusd -xxf >/dev/null 2>%1 &
