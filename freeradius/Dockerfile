@@ -1,10 +1,6 @@
 FROM ccr.ccs.tencentyun.com/based-image/alpine:based
 
-ENV LDAP_SERVER = 'motofans.club' \
-    BIND_DN = 'cn=admin,dc=motofans,dc=club' \
-    PORT = '389' \
-    PASSWORD = 'aaaaaaaaaa' \
-    BASE_DN = 'dc=motofans,dc=club'
+ENV PASSWORD = 'xxxxxxxxxx'
 
 RUN apk add --no-cache freeradius freeradius-ldap && \
     chgrp radius  /usr/sbin/radiusd && chmod g+rwx /usr/sbin/radiusd && \

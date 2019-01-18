@@ -29,11 +29,7 @@ server site_ldap {
 _EOF_
 
 # Change LDAP Config
-sed -i "s/ldapserver/${LDAP_SERVER}/g" /etc/raddb/mods-available/ldap
-sed -i "s/ldapuser/${BIND_DN}/g" /etc/raddb/mods-available/ldap
-sed -i "s/ldappwd/${PASSWD}/g" /etc/raddb/mods-available/ldap
-sed -i "s/389/${PORT}/g" /etc/raddb/mods-available/ldap
-sed -i "s/ldapbasedn/${BASE_DN}/g" /etc/raddb/mods-available/ldap
+sed -i "s/aaaaaaaaaa/${PASSWD}/g" /etc/raddb/mods-available/ldap
 
 # Enable Config
 ln -s /etc/raddb/mods-available/ldap /etc/raddb/mods-enabled/
