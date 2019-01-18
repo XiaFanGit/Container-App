@@ -20,4 +20,4 @@ VOLUME ["/etc/freeradius/certs"]
 
 EXPOSE 1812/udp 1813/udp 18120
 
-#ENTRYPOINT [ "/entrypoint.sh" ]
+ENTRYPOINT [ "/entrypoint.sh" ]
