@@ -1,7 +1,7 @@
 FROM ccr.ccs.tencentyun.com/based-image/alpine:based
 
 RUN apk add --no-cache freeradius freeradius-ldap && \
-    rm /var/cache/apk/*
+    chgrp radius  /usr/sbin/radiusd && chmod g+rwx /usr/sbin/radiusd
 
 VOLUME ["/opt/db"]
 VOLUME ["/etc/freeradius/certs"]
