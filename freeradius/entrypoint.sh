@@ -32,6 +32,8 @@ _EOF_
 # Config Client Share Key ...
 cd /etc/raddb
 
+rm -rf /etc/raddb/clients.conf
+
 cat >clients.conf <<_EOF_
 client localhost {
         ipv4addr = *
