@@ -8,8 +8,7 @@ cat >ldap <<_EOF_
 server ldap_auth { 
     listen { 
          ipaddr = 0.0.0.0
-         port = 1812
-         # 端口类型
+         port = 1833
          type = auth
     } 
     authorize {
