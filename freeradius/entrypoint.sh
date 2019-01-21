@@ -5,10 +5,11 @@ set -xe
 cd /etc/raddb/sites-available
 
 cat >ldap <<_EOF_
-server site_ldap { 
+server ldap_auth { 
     listen { 
          ipaddr = 0.0.0.0
-         port = 1833
+         port = 1812
+         # 端口类型
          type = auth
     } 
     authorize {
@@ -25,6 +26,23 @@ server site_ldap {
         Post-Auth-Type Reject {
         }
     }
+}
+_EOF_
+
+# Config Client Share Key ...
+cd /etc/raddb
+
+cat >clients.conf <<_EOF_
+client localhost {
+        ipv4addr = *
+        proto = *
+        secret = Saber965RDShare
+        require_message_authenticator = no
+        limit {
+                max_connections = 16
+                lifetime = 0
+                idle_timeout = 30
+        }
 }
 _EOF_
 
