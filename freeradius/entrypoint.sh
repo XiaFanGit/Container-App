@@ -1,57 +1,60 @@
 #!/bin/sh
 set -xe
 
-# Create Sites Config
-cd /etc/raddb/sites-available
-
-cat >ldap <<_EOF_
-server ldap_auth { 
-    listen { 
-         ipaddr = 0.0.0.0
-         port = 1833
-         type = auth
-    } 
-    authorize {
-         update {
-             control:Auth-Type := ldap
-         }
-    }
-    authenticate {
-        Auth-Type ldap {
-            ldap
-        }
-    }
-    post-auth {
-        Post-Auth-Type Reject {
-        }
-    }
+ldap_subst() {
+    sed -i -e "s/${1}/${2}/g" /etc/raddb/mods-available/ldap
 }
-_EOF_
 
-# Config Client Share Key ...
-cd /etc/raddb
+# substitute variables into LDAP configuration file
+ldap_subst "@LDAP_HOST@" "${LDAP_HOST}"
+ldap_subst "@LDAP_PORT@" "${LDAP_PORT}"
+ldap_subst "@BASE_DN@" "${BASE_DN}"
+ldap_subst "@BIND_DN@" "${BIND_DN}"
+ldap_subst "@PASSWORD@" "${PASSWORD}"
+ldap_subst "@USERS_DN@" "${USERS_DN}"
+ldap_subst "@GROUP_DN@" "${GROUP_DN}"
 
-rm -rf /etc/raddb/clients.conf
+# Enable LDAP Config
+ln -s /etc/raddb/mods-available/ldap /etc/raddb/mods-enabled/
 
-cat >clients.conf <<_EOF_
-client localhost {
+# Configure the default site for ldap
+sed -i -e 's/-ldap/ldap/g' /etc/raddb/sites-available/default
+sed -i -e '/^#[[:space:]]*Auth-Type LDAP {$/{N;N;s/#[[:space:]]*Auth-Type LDAP {\n#[[:space:]]*ldap\n#[[:space:]]*}/        Auth-Type LDAP {\n                ldap\n        }/}' /etc/raddb/sites-available/default
+sed -i -e 's/^#[[:space:]]*ldap/        ldap/g' /etc/raddb/sites-available/default
+
+# Configure the inner-tunnel site for ldap
+sed -i -e 's/-ldap/ldap/g' /etc/raddb/sites-available/inner-tunnel
+sed -i -e '/^#[[:space:]]*Auth-Type LDAP {$/{N;N;s/#[[:space:]]*Auth-Type LDAP {\n#[[:space:]]*ldap\n#[[:space:]]*}/        Auth-Type LDAP {\n                ldap\n        }/}' /etc/raddb/sites-available/inner-tunnel
+sed -i -e 's/^#[[:space:]]*ldap/        ldap/g' /etc/raddb/sites-available/inner-tunnel
+
+# Set Clients.conf
+cat > /etc/raddb/clients.conf << EOF
+client ocserv {
         ipv4addr = *
         proto = *
-        secret = Saber965RDShare
+        secret = ${RD_SHAREKEY}
         require_message_authenticator = no
-        limit {
-                max_connections = 16
-                lifetime = 0
-                idle_timeout = 30
-        }
+        shortname = ocserv
 }
-_EOF_
+EOF
 
-# Change LDAP Config
-sed -i "s/aaaaaaaaaa/${PASSWORD}/g" /etc/raddb/mods-available/ldap
+# Set LDAP.attr Mapping
+cat > /etc/raddb/ldap.attrmap << EOF
+checkItem NT-Password sambaNTPassword
+checkItem User-Password userPassword
+replyItem Tunnel-Type radiusTunnelType
+replyItem Tunnel-Medium-Type radiusTunnelMediumType
+replyItem Tunnel-Private-Group-Id radiusTunnelPrivateGroupId
+EOF
 
-# Enable Config
-ln -s /etc/raddb/mods-available/ldap /etc/raddb/mods-enabled/
-ln -s /etc/raddb/sites-available/ldap /etc/raddb/sites-enabled/
+# Set User Check
+cat > /etc/raddb/users << EOF
+DEFAULT LDAP-Group == "ocserv", Auth-Type := Accept
+        Reply-Message = "Login Success!"
+DEFAULT LDAP-Group != "ocserv", Auth-Type := Reject
+        Reply-Message = "OOPS! You are not a member of the required group"
+DEFAULT Auth-Type := LDAP
+        Fall-Through = 1
+EOF
 
 radiusd -xxf
