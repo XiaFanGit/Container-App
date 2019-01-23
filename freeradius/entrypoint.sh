@@ -40,7 +40,7 @@ EOF
 
 # Set LDAP.attr Mapping
 cat > /etc/raddb/ldap.attrmap << EOF
-#checkItem NT-Password sambaNTPassword
+checkItem NT-Password sambaNTPassword
 checkItem User-Password userPassword
 replyItem Tunnel-Type radiusTunnelType
 replyItem Tunnel-Medium-Type radiusTunnelMediumType
@@ -49,12 +49,10 @@ EOF
 
 # Set User Check
 cat > /etc/raddb/users << EOF
-DEFAULT LDAP-Group == "ocserv", Auth-Type := Accept
-        Reply-Message = "Login Success!"
 DEFAULT LDAP-Group != "ocserv", Auth-Type := Reject
-        Reply-Message = "OOPS! You are not a member of the required group"
+        Reply-Message = "对不起, 您没有权限访问."
 DEFAULT Auth-Type := LDAP
         Fall-Through = 1
 EOF
 
-#radiusd -xxf
+radiusd -xxf
