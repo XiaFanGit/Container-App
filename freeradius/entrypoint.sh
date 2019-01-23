@@ -40,7 +40,7 @@ EOF
 
 # Set LDAP.attr Mapping
 cat > /etc/raddb/ldap.attrmap << EOF
-checkItem NT-Password sambaNTPassword
+#checkItem NT-Password sambaNTPassword
 checkItem User-Password userPassword
 replyItem Tunnel-Type radiusTunnelType
 replyItem Tunnel-Medium-Type radiusTunnelMediumType
@@ -57,4 +57,4 @@ DEFAULT Auth-Type := LDAP
         Fall-Through = 1
 EOF
 
-radiusd -xxf
+#radiusd -xxf
