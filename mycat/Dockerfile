@@ -1,4 +1,5 @@
 FROM openjdk:8-jre-alpine
+java:8-jre
 ENV mycat-version Mycat-server-1.6.5-release-20180122220033-linux.tar.gz
 USER root
 RUN cd / \
