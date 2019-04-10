@@ -1,6 +1,6 @@
 FROM daocloud.io/subaru/pvenv
 
-ENV coco_version=1.4.8
+ENV coco_version=1.4.9
 
 RUN wget https://github.com/jumpserver/coco/archive/${coco_version}.tar.gz -O /opt/coco.tar.gz \
     && cd /opt \
