@@ -1,4 +1,4 @@
-FROM daocloud.io/subaru/jumpserver:based
+FROM ccr.ccs.tencentyun.com/jump-server/jumpserver-web:based
 
 COPY entrypoint.sh /
 COPY config.py /opt/jumpserver/config.py
