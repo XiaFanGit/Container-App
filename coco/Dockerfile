@@ -1,4 +1,4 @@
-FROM daocloud.io/subaru/coco:based
+FROM ccr.ccs.tencentyun.com/jump-server/coco:based
 
 WORKDIR /opt/coco
 
