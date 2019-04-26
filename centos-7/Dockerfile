@@ -6,7 +6,8 @@ ENV TZ=Asia/Shanghai \
     JAVA_HOME=/usr/local/jdk1.8 \
     MAVEN_HOME=/usr/local/maven3
 
-RUN yum clean all && yum makecache && \
+RUN yum clean all && \
+    yum makecache && \
     yum -y install glibc-common kde-l10n-Chinese wget && \
     yum clean all && \
     localedef -c -f UTF-8 -i zh_CN zh_CN.utf8 && \
