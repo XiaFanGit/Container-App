@@ -1,4 +1,4 @@
-FROM 192.168.173.110:5000/jdk-mvn
+FROM ccr.ccs.tencentyun.com/based-image/jdk-mvn:based
 
 RUN yum -y install git unzip epel-release && \
     yum -y install supervisor && \
