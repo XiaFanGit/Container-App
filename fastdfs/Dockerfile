@@ -1,18 +1,21 @@
 FROM debian:stretch-slim
 
+RUN cat /usr/share/zoneinfo/Asia/Shanghai > /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata
+
 ENV TRACKER_PATH=/home/fastdfs/tracker \
     STORAGE_PATH=/home/fastdfs/storage \
     SRC_DIR=/home/workdir
 
 WORKDIR /home/workdir
 
-RUN sed -i 's/security.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list \
-    && sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list \
+RUN sed -i 's/security.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list \
+    && sed -i 's/deb.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list \
     && apt-get update --yes \
     && mkdir -p ${TRACKER_PATH} \
     && mkdir -p ${STORAGE_PATH} \
     && apt-get install --yes --no-install-recommends libpcre3 libpcre3-dev openssl libssl-dev libperl-dev zlib1g zlib1g-dev \
-    && apt-get install --yes --no-install-recommends build-essential wget git ca-certificates supervisor \
+    && apt-get install --yes --no-install-recommends build-essential wget git ca-certificates monit \
     && git clone --branch V1.0.7 --depth 1 https://github.com/happyfish100/libfastcommon.git \
     && git clone --branch V5.05 --depth 1 https://github.com/happyfish100/fastdfs.git \
     && wget http://nginx.org/download/nginx-1.6.3.tar.gz \
@@ -36,20 +39,18 @@ RUN sed -i 's/security.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list \
     && make \
     && make install \
     && rm -rf ${SRC_DIR}/* \
-    && ln -sf /usr/lib64/* /usr/lib/ \
-    && ldconfig \
     && apt-get remove -y git wget build-essential \
     && apt autoremove -y \
     && apt clean
 
 RUN sed -i 's/\/usr\/local\/bin/\/usr\/bin/g' /etc/init.d/fdfs_trackerd && \
-    sed -i 's/\/usr\/local\/bin/\/usr\/bin/g' /etc/init.d/fdfs_storaged
+    sed -i 's/\/usr\/local\/bin/\/usr\/bin/g' /etc/init.d/fdfs_storaged && \
+    sed -i 's/\/etc\/init.d\/functions/\/lib\/lsb\/init-functions/g' /etc/init.d/fdfs_storaged && \ 
+    sed -i 's/\/etc\/init.d\/functions/\/lib\/lsb\/init-functions/g' /etc/init.d/fdfs_trackerd && \
+    ln -sf /usr/lib64/* /usr/lib/ && \
+    ldconfig
 
-COPY entrypoint.sh /
-
-RUN chmod a+x /entrypoint.sh
-
-COPY nginx-ps.conf /etc/supervisor/conf.d
+COPY fdfs-with-ng /etc/monit/conf.d/
 
 VOLUME ["$TRACKER_PATH", "$STORAGE_PATH", "/etc/fdfs"]
 
