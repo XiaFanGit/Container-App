@@ -39,6 +39,9 @@ RUN sed -i 's/security.debian.org/mirrors.ustc.edu.cn/g' /etc/apt/sources.list \
     && make \
     && make install \
     && rm -rf ${SRC_DIR}/* \
+    && cd /usr/bin \
+    && wget https://github.com/krallin/tini/releases/download/v0.18.0/tini \
+    && chmod a+x tini \
     && apt-get remove -y git wget build-essential \
     && apt autoremove -y \
     && apt clean
@@ -52,8 +55,6 @@ RUN sed -i 's/\/usr\/local\/bin/\/usr\/bin/g' /etc/init.d/fdfs_trackerd && \
 
 COPY fdfs-with-ng /etc/monit/conf.d/
 
-VOLUME ["$TRACKER_PATH", "$STORAGE_PATH", "/etc/fdfs"]
+VOLUME ["/home/fastdfs", "/etc/fdfs"]
 
-ENTRYPOINT ["/bin/bash","/entrypoint.sh"]
-
-CMD ["/usr/bin/supervisord"]
+ENTRYPOINT ["tini", "--", "monit", "-I"]
