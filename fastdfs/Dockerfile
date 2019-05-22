@@ -1,7 +1,4 @@
-FROM debian:stretch-slim
-
-RUN cat /usr/share/zoneinfo/Asia/Shanghai > /etc/localtime && \
-    dpkg-reconfigure -f noninteractive tzdata
+FROM ccr.ccs.tencentyun.com/based-image/debian
 
 ENV TRACKER_PATH=/home/fastdfs/tracker \
     STORAGE_PATH=/home/fastdfs/storage \
