@@ -1,8 +1,8 @@
 FROM alpine:3.8
 
-ENV LANG="en_US.UTF-8" \
-    LANGUAGE="en_US:en" \
-    LC_ALL="en_US.UTF-8" \
+ENV LANG="zh_CN.UTF-8" \
+    LANGUAGE="zh_CN:zh" \
+    LC_ALL="zh_CN.UTF-8" \
     BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" \
     VERSION="2.29-r0" \
     ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-2.29-r0.apk" \
