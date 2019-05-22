@@ -1,4 +1,4 @@
-FROM daocloud.io/subaru/alpine:based
+FROM ccr.ccs.tencentyun.com/based-image/alpine:based
 
 RUN apk add --no-cache python3 python3-dev py-pip
 
