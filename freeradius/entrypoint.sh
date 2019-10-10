@@ -1,4 +1,5 @@
 #!/bin/sh
+
 set -xe
 
 ldap_subst() {
@@ -15,7 +16,7 @@ ldap_subst "@USERS_DN@" "${USERS_DN}"
 ldap_subst "@GROUP_DN@" "${GROUP_DN}"
 
 # Enable LDAP Config
-ln -s /etc/raddb/mods-available/ldap /etc/raddb/mods-enabled/
+cp /etc/raddb/mods-available/ldap /etc/raddb/mods-enabled/
 
 # Configure the default site for ldap
 sed -i -e 's/-ldap/ldap/g' /etc/raddb/sites-available/default
