@@ -9,11 +9,11 @@ ENV LANG="zh_CN.UTF-8" \
     ALPINE_GLIBC_BIN_PACKAGE_FILENAME="glibc-bin-2.29-r0.apk" \
     ALPINE_GLIBC_I18N_PACKAGE_FILENAME="glibc-i18n-2.29-r0.apk"
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \
-    apk add --no-cache tzdata && \
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+
+RUN apk add --no-cache tzdata && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-    echo "Asia/Shanghai" > /etc/timezone && \
-    apk del tzdata
+    echo "Asia/Shanghai" > /etc/timezone
     
 RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates && \
     wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
