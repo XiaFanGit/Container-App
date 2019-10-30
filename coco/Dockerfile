@@ -1,6 +1,6 @@
-FROM daocloud.io/subaru/pvenv
+FROM ccr.ccs.tencentyun.com/based-image/pyenv:based
 
-ENV coco_version=1.4.9
+ENV coco_version=1.5.2
 
 RUN wget https://github.com/jumpserver/coco/archive/${coco_version}.tar.gz -O /opt/coco.tar.gz \
     && cd /opt \
