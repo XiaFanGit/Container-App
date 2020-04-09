@@ -6,12 +6,13 @@ ENV LANG="zh_CN.UTF-8" \
     LANGUAGE="zh_CN:zh" \
     LC_ALL="zh_CN.UTF-8" \
     TZ=Asia/Shanghai \
-    TERM=xterm \
-    VERSION="2.29-r0" \
-    BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" \
-    ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-2.29-r0.apk" \
-    ALPINE_GLIBC_BIN_PACKAGE_FILENAME="glibc-bin-2.29-r0.apk" \
-    ALPINE_GLIBC_I18N_PACKAGE_FILENAME="glibc-i18n-2.29-r0.apk"
+    TERM=xterm
+
+ARG VERSION="2.29-r0"
+ARG BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download"
+ARG ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-2.29-r0.apk"
+ARG ALPINE_GLIBC_BIN_PACKAGE_FILENAME="glibc-bin-2.29-r0.apk"
+ARG ALPINE_GLIBC_I18N_PACKAGE_FILENAME="glibc-i18n-2.29-r0.apk"
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \
     apk update && \
