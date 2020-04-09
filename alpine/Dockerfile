@@ -1,20 +1,28 @@
 FROM alpine:3.8
 
+MAINTAINER Motofans
+
 ENV LANG="zh_CN.UTF-8" \
-    LANGUAGE="zh_CN:zh" \
-    LC_ALL="zh_CN.UTF-8" \
-    BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" \
-    VERSION="2.29-r0" \
-    ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-2.29-r0.apk" \
-    ALPINE_GLIBC_BIN_PACKAGE_FILENAME="glibc-bin-2.29-r0.apk" \
-    ALPINE_GLIBC_I18N_PACKAGE_FILENAME="glibc-i18n-2.29-r0.apk"
+	LANGUAGE="zh_CN:zh" \
+	LC_ALL="zh_CN.UTF-8" \
+	TZ=Asia/Shanghai \
+	TERM=xterm
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+ARG VERSION="2.29-r0" \
+	BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" \
+	ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-2.29-r0.apk" \
+	ALPINE_GLIBC_BIN_PACKAGE_FILENAME="glibc-bin-2.29-r0.apk" \
+	ALPINE_GLIBC_I18N_PACKAGE_FILENAME="glibc-i18n-2.29-r0.apk"
 
-RUN apk add --no-cache tzdata && \
-    cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-    echo "Asia/Shanghai" > /etc/timezone
-    
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \
+	apk update && \
+	apk upgrade && \
+	apk add --no-cache tzdata && \
+	cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+	echo "Asia/Shanghai" > /etc/timezone && \
+	rm -rf /tmp/* && \
+	rm -rf /var/cache/apk/*
+
 RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates && \
     wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
     wget "$BASE_URL/$VERSION/$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
