@@ -39,4 +39,3 @@ RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates && \
     rm  "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
         "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
-s
