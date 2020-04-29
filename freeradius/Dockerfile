@@ -10,9 +10,10 @@ ENV LDAP_HOST = 'motofans.club' \
     RD_SHAREKEY = 'Subarutestkey'
 
 RUN apk add --no-cache freeradius freeradius-ldap && \
-    chgrp radius  /usr/sbin/radiusd && chmod g+rwx /usr/sbin/radiusd && \
+    chgrp radius /usr/sbin/radiusd && \
+    chmod g+rwx /usr/sbin/radiusd && \
     rm /etc/raddb/mods-available/ldap
-
+    
 COPY entrypoint.sh /entrypoint.sh
 COPY ldap.conf /etc/raddb/mods-available/ldap
 
