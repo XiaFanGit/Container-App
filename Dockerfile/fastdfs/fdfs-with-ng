@@ -1,0 +1,11 @@
+ check process fdfs_trackerd with pidfile /home/fastdfs/tracker/data/fdfs_trackerd.pid
+   start program = "/bin/bash -c '/etc/init.d/fdfs_trackerd start'"
+   stop program = "/bin/bash -c '/etc/init.d/fdfs_trackerd stop'"
+
+ check process fdfs_storaged with pidfile /home/fastdfs/storage/data/fdfs_storaged.pid
+   start program = "/bin/bash -c '/etc/init.d/fdfs_storaged start'"
+   stop program = "/bin/bash -c '/etc/init.d/fdfs_storaged stop'"
+
+ check process nginx with pidfile /usr/local/nginx/logs/nginx.pid
+   start program = "/bin/bash -c '/usr/local/nginx/sbin/nginx'"
+   stop program = "/bin/bash -c '/usr/local/nginx/sbin/nginx -s stop'"

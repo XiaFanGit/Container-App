@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  vaultwarden:
+    image: vaultwarden/server:1.22.2
+    container_name: vaultwarden
+    restart: always
+    network_mode: host
+    volumes:
+      - ./data:/data
+    environment:
+      - DOMAIN=https://passwd.motofans.club
+      - DATABASE_URL=/data/vaultwarden.db
+      - SIGNUPS_ALLOWED=false
+      - WEB_VAULT_ENABLED=true
+      - WEBSOCKET_ENABLED=true
+      - WEBSOCKET_PORT=8888
+      - ROCKET_WORKERS=10
+      - ROCKET_PORT=6666
