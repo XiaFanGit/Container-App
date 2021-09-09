@@ -1,0 +1,44 @@
+FROM python:3.8.9-slim-buster as build
+ENV TZ=Asia/Shanghai \
+    # Python
+    PYTHONUNBUFFERED=1 \
+    PYTHONFAULTHANDLER=1 \
+    PYTHONHASHSEED=random \
+    # PIP:
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    # Poetry
+    POETRY_VERSION=1.1.7 \
+    POETRY_NO_INTERACTION=1 \
+    POETRY_VIRTUALENVS_CREATE=false \
+    POETRY_CACHE_DIR='/var/cache/pypoetry' \
+    PATH="$PATH:/root/.poetry/bin"
+
+# Install build dependencies
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
+    && echo $TZ > /etc/timezone \
+    && apt update \
+    && apt install -y \
+      bash \
+      build-essential \
+      wget \
+      curl \
+      cmake \
+      make \
+      gcc \
+      git \
+      libpq-dev \
+      pkg-config \
+      libcairo2-dev \
+      libgirepository1.0-dev \
+      libxml2-dev \
+    && curl -sSL 'https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py' | python \
+    && poetry --version \
+    # Cleaning cache:
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+    && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+
+# Project initialization:
+WORKDIR /code
+COPY poetry.lock pyproject.toml /code/
+RUN poetry install --no-interaction --no-ansi
